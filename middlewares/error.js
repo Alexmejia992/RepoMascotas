@@ -6,7 +6,7 @@ const errorHandler = (err, req, res, next) =>{
     error.message = err.message
 
     if(err.code === 11000) {
-        const message = `Error de duplicación`;
+        const message = `Duplicate Field value entered`;
         error = new ErrorResponse(message, 400)
     }
 
@@ -14,7 +14,7 @@ const errorHandler = (err, req, res, next) =>{
         const message = Object.values(err.errors).map((val) => val.message);
         err = new ErrorResponse(message, 400)
     }
-    res.status(error.status || 500 ).json({
+    res.status(error.statusCode || 500 ).json({
         succes: false,
         error: error.message || "Error del servidor"
     })

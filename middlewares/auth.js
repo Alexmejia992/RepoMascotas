@@ -43,8 +43,8 @@ exports.protect = async (req, res, next) => {
   }
 
   if (!token) {
-    // return next(new ErrorResponse("Not authorized to access this route", 401));
-    return res.status(401).json('El error está en esta linea')
+    return next(new ErrorResponse("Not authorized to access this route", 401));
+    // return res.status(401).json('El error está en esta linea')
   }
 
   try {
