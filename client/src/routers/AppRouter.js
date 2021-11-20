@@ -28,9 +28,9 @@ export default function AppRouter() {
                         <Route  
                             path="userAccount" 
                             element={ 
-                                <PrivateRoute> 
-                                    <UserAccountPage /> 
-                                </PrivateRoute> } 
+                            <PrivateRoute> 
+                                <UserAccountPage /> 
+                            </PrivateRoute> } 
                         />
                         <Route
                             path="admin" 

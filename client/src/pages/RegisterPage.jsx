@@ -1,5 +1,5 @@
 import React , { Component } from 'react'
-import { Container } from 'react-bootstrap';
+import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 
 import axios from "axios"
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -8,40 +8,51 @@ function RegisterPage() {
     const reRef = React.createRef();
 
     return (
-        <>
-            <Container  className='mt-5'>
-            <form>
-                <h3>Registro</h3>
-
-                <div className="form-group">
-                    <label>Nombre de usuario</label>
-                    <input type="text" className="form-control" placeholder="First name" />
-                </div>
-
-                <div className="form-group">
-                    <label>Correo</label>
-                    <input type="email" className="form-control" placeholder="Enter email" />
-                </div>
-
-                <div className="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" className="form-control" placeholder="Ingrese contraseña" />
-                </div>
-
-                <button type="submit" className="btn btn-primary btn-block">Registrarse</button>
-                <p className="forgot-password text-right">
-                    Already registered <a href="#">sign in?</a>
-                </p>
+            <Container className="mt-5">
+                <h2>Register</h2>
+                <Row>
+                    <Col xs={6}>
+                        <Form>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" />
+                                <Form.Text className="text-muted">
+                                We'll never share your email with anyone else.
+                                </Form.Text>
+                            </Form.Group>
+                            <Form.Group >
+                                <Form.Label id="inlineFormInput">
+                                    User Name
+                                </Form.Label>
+                                <Form.Control
+                                    className="mb-2"
+                                    
+                                    placeholder="Jane Doe"
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control type="password" placeholder="Password" />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <Form.Label>Confirm Password</Form.Label>
+                                <Form.Control type="password" placeholder="Password" />
+                            </Form.Group>
+                            <Button variant="primary" type="submit">
+                                Submit
+                            </Button>
+                        </Form>
+                    </Col>
+                </Row>
                 <ReCAPTCHA 
                     sitekey='6LczRCkdAAAAAM3fxlBTqVNjKWE633lTwMDK_eRf'
                     size="normal"
                     ref={reRef}
                 />
-            </form>
             </Container>
             
-        </>
-    )
+            
+    )   
 }
 
 export default RegisterPage

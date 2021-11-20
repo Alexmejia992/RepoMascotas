@@ -17,6 +17,9 @@ export default function Navigation() {
                         <Nav.Link as={NavLink} to="/vision">
                             Visión
                         </Nav.Link>
+                        <Nav.Link as={NavLink} to="/contacto">
+                            Contacto
+                        </Nav.Link>
                         <NavDropdown title="Admin"> 
                             <NavDropdown.Item as={NavLink} to="/admin">Administrador</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} to="/adviser">Asesor</NavDropdown.Item>
