@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Layout from '../components/layouts/Layout'
 import HomePage from "../pages/HomePage"
 import AdminPage from "../pages/AdminPage"
@@ -11,33 +11,37 @@ import VisionPage from "../pages/VisionPage"
 import RegisterPage from "../pages/RegisterPage"
 import AdviserPage from "../pages/AdviserPage"
 import PrivateRoute from "./PrivateRoute"
+import ResetPage from "../pages/ResetPage"
+import ForgotPage from "../pages/ForgotPage"
 
 
 export default function AppRouter() {
     return (
         <div>
             <Router>
-                <Layout> 
-                    <Routes>
-                        <Route exact path="/" element={<HomePage />} />
-                        <Route exact path="mision" element={<MisionPage />} />
-                        <Route exact path="vision" element={<VisionPage />} />
-                        <Route exact path="contacto" element={<ContactPage />} />
-                        <Route exact path="login" element={<LoginPage />} />
-                        <Route exact path="register" element={<RegisterPage/>} />
+                <Layout>
+                    <Switch> 
+                        <Route exact path="/" component={HomePage} />
+                        <Route exact path="/mision" component={MisionPage} />
+                        <Route exact path="/vision" component={VisionPage} />
+                        <Route exact path="/contacto" component={ContactPage} />
+                        <Route exact path="/login" component={LoginPage}  />
+                        <Route exact path="/register" component={RegisterPage} />
+                        <Route exact path="/recuperarcontraseña" component={ForgotPage} />
+                        <Route exact path="/resetPassword/:resetToken" component={ResetPage} />
                         <Route  
-                            path="userAccount" 
-                            element={ 
-                            <PrivateRoute> 
-                                <UserAccountPage /> 
-                            </PrivateRoute> } 
+                            exact
+                            path="/userAccount" 
+                            component={ 
+                                UserAccountPage 
+                            } 
                         />
                         <Route
-                            path="admin" 
-                            element={
-                            <PrivateRoute>
-                                <AdminPage/>
-                            </PrivateRoute>} 
+                            exact
+                            path="/admin" 
+                            component={
+                                AdminPage
+                            }
                         />
                         <Route
                             path="adviser" 
@@ -49,7 +53,7 @@ export default function AppRouter() {
                         
                         {/* excepcion */}
                         <Route path="*" element={<NotFoundPage />} />
-                    </Routes>  
+                    </Switch>
                 </Layout>
             </Router>
         </div>
