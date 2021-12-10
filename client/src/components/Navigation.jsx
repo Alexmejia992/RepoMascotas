@@ -1,7 +1,28 @@
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom'
 
 export default function Navigation() {
+
+    const [isLogged, setIsLogged] = useState(false);
+
+    useEffect(() => {
+        checkStorage();
+        return () => {}
+    }, [isLogged])
+
+    const checkStorage = () =>{
+        if(localStorage.getItem("authToken")){
+            setIsLogged(true);
+        } else {
+            setIsLogged(false);
+        }
+    }
+    
+    const logoutHandler = () => {
+        localStorage.removeItem("authToken");
+        setIsLogged(false);
+    }
     return (
         <Navbar collapseOnSelect expand="lg" variant="dark" bg="dark">
             <Container fluid>
@@ -26,7 +47,12 @@ export default function Navigation() {
                         </NavDropdown>
                     </Nav>
                     <Nav className="ms-auto">
-                        <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+                        {!isLogged ? (
+                            <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+                        ) : (
+                            <Nav.Link as={NavLink} to="/login" onClick={ logoutHandler }>Logout</Nav.Link>
+                        )}
+                            
                         <Nav.Link as={NavLink} to="/register">Registro</Nav.Link>
                         <Nav.Link as={NavLink} to="/userAccount">Mi Cuenta</Nav.Link>
                     </Nav>
@@ -34,4 +60,4 @@ export default function Navigation() {
             </Container>
         </Navbar>
     )
-}
+};

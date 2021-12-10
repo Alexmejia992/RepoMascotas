@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const mongoose = require('mongoose');
+const Pet = require('./Pet');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -27,9 +28,13 @@ const UserSchema = new mongoose.Schema({
         minlength: 6,
         select: false
     },
+    pets:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Pet"
+    },
     resetPasswordToken: String,
     resetPasswordExpired: Date
-});
+}, {versionKey: false, timestamps: true});
 
 UserSchema.pre('save', async function(next) {
     if(!this.isModified('password')){

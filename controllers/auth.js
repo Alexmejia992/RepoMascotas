@@ -49,12 +49,14 @@ exports.login = async (req,res, next) =>{
         if(!isMatch) {
             return next(new ErrorResponse("Invalid credentials", 401));
         }
+        
 
         // res.status(200).json({
         //     success: true,
         //     token: "asdasd123123"
         // });
         sendToken(user, 200, res)
+        // console.log(user.password)
 
     } catch (error) {
         res.status(500).json({ succes:false, error: error.message})

@@ -1,21 +1,65 @@
-import React , { Component } from 'react'
+import React , { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 
 import axios from "axios"
 import ReCAPTCHA from 'react-google-recaptcha'
 
-function RegisterPage() {
+export default function RegisterPage({ history }) {
+
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const RegisterHandleSubmit = async (e) =>{
+        e.preventDefault();
+
+        const config = {
+            header: {
+                "Content-Type": "application/json"
+            }
+        }
+        if(password !== confirmPassword) {
+            setPassword("");
+            setConfirmPassword("");
+            setTimeout(() => {
+                setError("")
+            }, 5000 );
+            return setError("Las contraseñas no coinciden.");
+        }
+        try {
+            const {data} = await axios.post(
+                '/api/auth/register', 
+                {username, email, password}, config);
+
+            localStorage.setItem("authToken", data.token);
+            history.push("/")
+        } catch (error) {
+            setError(error.response.data.error)
+            setTimeout(() => {
+                setError("");
+            }, 5000);
+        }
+    }
+
     const reRef = React.createRef();
 
     return (
             <Container className="mt-5">
                 <h2>Register</h2>
+                {error && <span>{error}</span>}
                 <Row>
                     <Col xs={6}>
-                        <Form>
+                        <Form onSubmit={RegisterHandleSubmit}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" />
+                                <Form.Control type="email" 
+                                    placeholder="Enter email" 
+                                    value={ email } 
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                                 <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                                 </Form.Text>
@@ -26,21 +70,34 @@ function RegisterPage() {
                                 </Form.Label>
                                 <Form.Control
                                     className="mb-2"
-                                    
                                     placeholder="Jane Doe"
+                                    required
+                                    value={ username }
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control type="password" 
+                                    placeholder="Password" 
+                                    required
+                                    value={ password }
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
                             </Form.Group>
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Group className="mb-3" controlId="formBasicPasswordConfirm">
                                 <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control type="password" 
+                                    placeholder="Password" 
+                                    required
+                                    value={ confirmPassword }
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    />
                             </Form.Group>
                             <Button variant="primary" type="submit">
-                                Submit
+                                Registrar
                             </Button>
+                            <span> ¿Ya tienes una cuenta? <Link to="/login">Login</Link></span>
                         </Form>
                     </Col>
                 </Row>
@@ -54,8 +111,6 @@ function RegisterPage() {
             
     )   
 }
-
-export default RegisterPage
 
 
 // export default function RegisterPage() {

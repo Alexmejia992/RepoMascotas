@@ -4,3 +4,4 @@ exports.getPrivateData = (req, res, next) => {
         data: 'Tienes acceso a esta ruta privada.'
     });
 };
+
